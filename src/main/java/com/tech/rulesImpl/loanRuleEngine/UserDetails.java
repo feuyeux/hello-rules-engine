@@ -16,6 +16,6 @@ public class UserDetails {
     Long accountNumber;
     Double monthlySalary;
     String bank;
-    Integer cibilScore;
+    Integer creditScore;
     Double requestedLoanAmount;
 }

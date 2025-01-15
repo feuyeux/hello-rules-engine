@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.tech</groupId>
@@ -19,12 +19,12 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
 
-        <lombok.version>1.16.16</lombok.version>
-        <guava.version>21.0</guava.version>
+        <lombok.version>1.18.36</lombok.version>
+        <guava.version>33.4.0-jre</guava.version>
         <junit.version>4.12</junit.version>
         <typesafe.version>1.2.1</typesafe.version>
-        <postgresql.version>9.4-1206-jdbc42</postgresql.version>
-        <mvel.version>2.4.4.Final</mvel.version>
+        <postgresql.version>42.2.23</postgresql.version>
+        <mvel.version>2.5.2.Final</mvel.version>
     </properties>
 
     <dependencies>
@@ -35,18 +35,19 @@
             <version>${postgresql.version}</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/org.mvel/mvel2 -->
+        <dependency>
+            <groupId>org.mvel</groupId>
+            <artifactId>mvel2</artifactId>
+            <version>${mvel.version}</version>
+        </dependency>
+
         <!--Lombok Plugin-->
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
-        </dependency>
-
-        <!-- Junit -->
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>${junit.version}</version>
+            <optional>true</optional>
         </dependency>
 
         <!--Guava-->
@@ -68,7 +69,20 @@
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
 
-        <!--Spring test-->
+        <!--TypeSafe-->
+        <dependency>
+            <groupId>com.typesafe</groupId>
+            <artifactId>config</artifactId>
+            <version>${typesafe.version}</version>
+        </dependency>
+
+        <!-- test -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
@@ -79,21 +93,6 @@
             <artifactId>spring-security-test</artifactId>
             <scope>test</scope>
         </dependency>
-
-        <!--TypeSafe-->
-        <dependency>
-            <groupId>com.typesafe</groupId>
-            <artifactId>config</artifactId>
-            <version>${typesafe.version}</version>
-        </dependency>
-
-        <!-- https://mvnrepository.com/artifact/org.mvel/mvel2 -->
-        <dependency>
-            <groupId>org.mvel</groupId>
-            <artifactId>mvel2</artifactId>
-            <version>${mvel.version}</version>
-        </dependency>
-
     </dependencies>
 
     <build>
