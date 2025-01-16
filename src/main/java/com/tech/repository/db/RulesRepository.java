@@ -1,4 +1,4 @@
-package com.tech.knowledgeBase.db;
+package com.tech.repository.db;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

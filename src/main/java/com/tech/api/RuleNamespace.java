@@ -1,4 +1,4 @@
-package com.tech.restAPI;
+package com.tech.api;
 
 public enum RuleNamespace {
     LOAN,

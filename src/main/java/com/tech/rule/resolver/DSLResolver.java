@@ -1,4 +1,4 @@
-package com.tech.dslResolver;
+package com.tech.rule.resolver;
 
 public interface DSLResolver {
     String getResolverKeyword();

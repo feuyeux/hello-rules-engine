@@ -1,4 +1,4 @@
-package com.tech.rulesImpl.insuranceRuleEngine;
+package com.tech.rule.pojo;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

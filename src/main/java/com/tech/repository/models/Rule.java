@@ -1,6 +1,6 @@
-package com.tech.knowledgeBase.models;
+package com.tech.repository.models;
 
-import com.tech.restAPI.RuleNamespace;
+import com.tech.api.RuleNamespace;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

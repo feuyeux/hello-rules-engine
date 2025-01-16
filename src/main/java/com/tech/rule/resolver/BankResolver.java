@@ -1,6 +1,5 @@
-package com.tech.dslResolver.resolverImpl;
+package com.tech.rule.resolver;
 
-import com.tech.dslResolver.DSLResolver;
 import org.springframework.stereotype.Component;
 
 @Component

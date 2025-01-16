@@ -1,4 +1,4 @@
-package com.tech.knowledgeBase.db;
+package com.tech.repository.db;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

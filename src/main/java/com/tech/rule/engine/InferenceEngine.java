@@ -1,8 +1,8 @@
-package com.tech.ruleEngine;
+package com.tech.rule.engine;
 
-import com.tech.knowledgeBase.models.Rule;
-import com.tech.langParser.RuleParser;
-import com.tech.restAPI.RuleNamespace;
+import com.tech.repository.models.Rule;
+import com.tech.rule.parser.RuleParser;
+import com.tech.api.RuleNamespace;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,12 +20,13 @@ public abstract class InferenceEngine<INPUT_DATA, OUTPUT_RESULT> {
 
     /**
      * Run inference engine on set of rules for given data.
-     * @param listOfRules
-     * @param inputData
-     * @return
+     *
+     * @param listOfRules : List of rules
+     * @param inputData   : Input data
+     * @return : Output result
      */
-    public OUTPUT_RESULT run (List<Rule> listOfRules, INPUT_DATA inputData){
-        if (null == listOfRules || listOfRules.isEmpty()){
+    public OUTPUT_RESULT run(List<Rule> listOfRules, INPUT_DATA inputData) {
+        if (null == listOfRules || listOfRules.isEmpty()) {
             return null;
         }
 
@@ -34,29 +35,28 @@ public abstract class InferenceEngine<INPUT_DATA, OUTPUT_RESULT> {
 
         //STEP 2 (RESOLVE) : Resolve the conflict and give the selected one rule.
         Rule resolvedRule = resolve(conflictSet);
-        if (null == resolvedRule){
+        if (null == resolvedRule) {
             return null;
         }
 
         //STEP 3 (EXECUTE) : Run the action of the selected rule on given data and return the output.
-        OUTPUT_RESULT outputResult = executeRule(resolvedRule, inputData);
-
-        return outputResult;
+        return executeRule(resolvedRule, inputData);
     }
 
     /**
-     *We can use here any pattern matching algo:
+     * We can use here any pattern matching algo:
      * 1. Rete
      * 2. Linear
      * 3. Treat
      * 4. Leaps
-     *
+     * <p>
      * Here we are using Linear matching algorithm for pattern matching.
-     * @param listOfRules
-     * @param inputData
-     * @return
+     *
+     * @param listOfRules : List of rules
+     * @param inputData   : Input data
+     * @return : List of matched rules
      */
-    protected List<Rule> match(List<Rule> listOfRules, INPUT_DATA inputData){
+    protected List<Rule> match(List<Rule> listOfRules, INPUT_DATA inputData) {
         return listOfRules.stream()
                 .filter(
                         rule -> {
@@ -74,31 +74,31 @@ public abstract class InferenceEngine<INPUT_DATA, OUTPUT_RESULT> {
      * 3. MEA
      * 4. Refactor
      * 5. Priority wise
+     * <p>
+     * Here we are using find first rule logic.
      *
-     *  Here we are using find first rule logic.
-     * @param conflictSet
-     * @return
+     * @param conflictSet : List of matched rules
+     * @return : Selected rule
      */
-    protected Rule resolve(List<Rule> conflictSet){
+    protected Rule resolve(List<Rule> conflictSet) {
         Optional<Rule> rule = conflictSet.stream()
                 .findFirst();
-        if (rule.isPresent()){
-            return rule.get();
-        }
-        return null;
+        return rule.orElse(null);
     }
 
     /**
      * Execute selected rule on input data.
-     * @param rule
-     * @param inputData
-     * @return
+     *
+     * @param rule     : Selected rule
+     * @param inputData : Input data
+     * @return : Output result
      */
-    protected OUTPUT_RESULT executeRule(Rule rule, INPUT_DATA inputData){
+    protected OUTPUT_RESULT executeRule(Rule rule, INPUT_DATA inputData) {
         OUTPUT_RESULT outputResult = initializeOutputResult();
         return ruleParser.parseAction(rule.getAction(), inputData, outputResult);
     }
 
     protected abstract OUTPUT_RESULT initializeOutputResult();
+
     protected abstract RuleNamespace getRuleNamespace();
 }

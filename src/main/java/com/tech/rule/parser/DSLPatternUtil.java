@@ -1,7 +1,6 @@
-package com.tech.langParser;
+package com.tech.rule.parser;
 
 import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +12,8 @@ import java.util.regex.Pattern;
 @Slf4j
 @Service
 public class DSLPatternUtil {
-    private static final Pattern DSL_PATTERN = Pattern.compile("\\$\\((\\w+)(\\.\\w+)\\)"); //$(rulenamespace.keyword)
+    //$(rulenamespace.keyword)
+    private static final Pattern DSL_PATTERN = Pattern.compile("\\$\\((\\w+)(\\.\\w+)\\)");
     private static final String DOT = ".";
 
     public List<String> getListOfDslKeywords(String expression) {
@@ -27,17 +27,14 @@ public class DSLPatternUtil {
     }
 
     public String extractKeyword(String keyword) {
-        return keyword.substring(keyword.indexOf('(') + 1,
-                keyword.indexOf(')'));
+        return keyword.substring(keyword.indexOf('(') + 1, keyword.indexOf(')'));
     }
 
     public String getKeywordResolver(String dslKeyword){
-        ArrayList<String> splittedKeyword = Lists.newArrayList(Splitter.on(DOT).omitEmptyStrings().split(dslKeyword));
-        return splittedKeyword.get(0);
+        return Splitter.on(DOT).omitEmptyStrings().splitToList(dslKeyword).get(0);
     }
 
     public String getKeywordValue(String dslKeyword){
-        ArrayList<String> splittedKeyword = Lists.newArrayList(Splitter.on(DOT).omitEmptyStrings().split(dslKeyword));
-        return splittedKeyword.get(1);
+    return Splitter.on(DOT).omitEmptyStrings().splitToList(dslKeyword).get(1);
     }
 }

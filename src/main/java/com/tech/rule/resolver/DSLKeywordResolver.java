@@ -1,5 +1,6 @@
-package com.tech.dslResolver;
+package com.tech.rule.resolver;
 
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+@Getter
 @Slf4j
 @Service
 @NoArgsConstructor
@@ -21,10 +23,6 @@ public class DSLKeywordResolver {
     public DSLKeywordResolver(List<DSLResolver> resolverList) {
         dslKeywordResolverList = resolverList.stream()
                 .collect(Collectors.toMap(DSLResolver::getResolverKeyword, Function.identity()));
-    }
-
-    public Map<String, DSLResolver> getDslKeywordResolverList(){
-        return dslKeywordResolverList;
     }
 
     public Optional<DSLResolver> getResolver(String keyword) {

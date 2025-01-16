@@ -1,6 +1,6 @@
 package com.tech;
 
-import com.tech.langParser.DSLPatternUtil;
+import com.tech.rule.parser.DSLPatternUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;

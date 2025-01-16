@@ -1,15 +1,15 @@
-package com.tech.restAPI;
+package com.tech.api;
 
 import com.google.common.base.Enums;
-import com.tech.ruleEngine.RuleEngine;
-import com.tech.knowledgeBase.models.Rule;
-import com.tech.knowledgeBase.KnowledgeBaseService;
-import com.tech.rulesImpl.insuranceRuleEngine.InsuranceInferenceEngine;
-import com.tech.rulesImpl.insuranceRuleEngine.InsuranceDetails;
-import com.tech.rulesImpl.insuranceRuleEngine.PolicyHolderDetails;
-import com.tech.rulesImpl.loanRuleEngine.LoanDetails;
-import com.tech.rulesImpl.loanRuleEngine.LoanInferenceEngine;
-import com.tech.rulesImpl.loanRuleEngine.UserDetails;
+import com.tech.rule.engine.RuleEngine;
+import com.tech.repository.models.Rule;
+import com.tech.repository.KnowledgeBaseService;
+import com.tech.rule.engine.InsuranceInferenceEngine;
+import com.tech.rule.pojo.InsuranceDetails;
+import com.tech.rule.pojo.PolicyHolderDetails;
+import com.tech.rule.pojo.LoanDetails;
+import com.tech.rule.engine.LoanInferenceEngine;
+import com.tech.rule.pojo.UserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,7 +23,8 @@ public class RuleEngineRestController {
     @Autowired
     private KnowledgeBaseService knowledgeBaseService;
     @Autowired
-    private RuleEngine ruleEngine;
+    private RuleEngine<UserDetails,LoanDetails> ruleEngine;
+    private RuleEngine<PolicyHolderDetails,InsuranceDetails> ruleEngine2;
     @Autowired
     private LoanInferenceEngine loanInferenceEngine;
     @Autowired
@@ -44,13 +45,13 @@ public class RuleEngineRestController {
 
     @PostMapping(value = "/loan")
     public ResponseEntity<?> postUserLoanDetails(@RequestBody UserDetails userDetails) {
-        LoanDetails result = (LoanDetails) ruleEngine.run(loanInferenceEngine, userDetails);
+        LoanDetails result =  ruleEngine.run(loanInferenceEngine, userDetails);
         return ResponseEntity.ok(result);
     }
 
     @PostMapping(value = "/insurance")
     public ResponseEntity<?> postCarLoanDetails(@RequestBody PolicyHolderDetails policyHolderDetails) {
-        InsuranceDetails result = (InsuranceDetails) ruleEngine.run(insuranceInferenceEngine, policyHolderDetails);
+        InsuranceDetails result =  ruleEngine2.run(insuranceInferenceEngine, policyHolderDetails);
         return ResponseEntity.ok(result);
     }
 }

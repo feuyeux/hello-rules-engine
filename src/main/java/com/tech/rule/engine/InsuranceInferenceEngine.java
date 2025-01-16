@@ -1,7 +1,8 @@
-package com.tech.rulesImpl.insuranceRuleEngine;
+package com.tech.rule.engine;
 
-import com.tech.restAPI.RuleNamespace;
-import com.tech.ruleEngine.InferenceEngine;
+import com.tech.api.RuleNamespace;
+import com.tech.rule.pojo.InsuranceDetails;
+import com.tech.rule.pojo.PolicyHolderDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 

@@ -1,13 +1,11 @@
 package com.tech;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tech.knowledgeBase.KnowledgeBaseService;
-import com.tech.knowledgeBase.models.Rule;
-import com.tech.restAPI.RuleNamespace;
-import com.tech.rulesImpl.insuranceRuleEngine.InsuranceDetails;
-import com.tech.rulesImpl.insuranceRuleEngine.PolicyHolderDetails;
-import com.tech.rulesImpl.loanRuleEngine.LoanDetails;
-import com.tech.rulesImpl.loanRuleEngine.UserDetails;
+import com.tech.api.RuleNamespace;
+import com.tech.repository.KnowledgeBaseService;
+import com.tech.repository.models.Rule;
+import com.tech.rule.pojo.LoanDetails;
+import com.tech.rule.pojo.UserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
@@ -54,9 +52,9 @@ public class RuleEngineTest {
     @Test
     public void verifyGetAllRules() throws Exception {
         mockMvc.perform(get("/get-all-rules")
-                .accept(MediaType.APPLICATION_JSON))
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk()
-        );
+                );
     }
 
     @Test
@@ -67,13 +65,13 @@ public class RuleEngineTest {
                 .accountNumber(1234567L)
                 .requestedLoanAmount(1000000.0)
                 .monthlySalary(50000.0)
-                .cibilScore(600)
+                .creditScore(600)
                 .age(25)
                 .build();
 
         MvcResult mvcResult = mockMvc.perform(post("/loan")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(userDetails)))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(userDetails)))
                 .andExpect(status().isOk()
                 ).andReturn();
 
@@ -99,13 +97,13 @@ public class RuleEngineTest {
                 .accountNumber(1234567L)
                 .requestedLoanAmount(800000.0)
                 .monthlySalary(30000.0)
-                .cibilScore(400)
+                .creditScore(400)
                 .age(25)
                 .build();
 
         MvcResult mvcResult = mockMvc.perform(post("/loan")
-                .contentType("application/json")
-                .content(objectMapper.writeValueAsString(userDetails)))
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(userDetails)))
                 .andExpect(status().isOk()
                 ).andReturn();
 
@@ -123,11 +121,11 @@ public class RuleEngineTest {
         assertThat(expectedResponseBody).isEqualToIgnoringWhitespace(actualResponseBody);
     }
 
-    private List<Rule> getListOfRules(){
+    private List<Rule> getListOfRules() {
         Rule rule1 = Rule.builder()
                 .ruleNamespace(RuleNamespace.LOAN)
                 .ruleId("1")
-                .condition("input.monthlySalary >= 50000.0 && input.cibilScore >= 500 && input.requestedLoanAmount<1500000 && $(bank.target_done) == false")
+                .condition("input.monthlySalary >= 50000.0 && input.creditScore >= 500 && input.requestedLoanAmount<1500000 && $(bank.target_done) == false")
                 .action("output.setApprovalStatus(true); output.setInterestRate($(bank.interest)); output.setSanctionedPercentage(90);output.setProcessingFees(2000);output.setAccountNumber(input.accountNumber);")
                 .priority(1)
                 .description("A person is eligible for loan?")
@@ -135,7 +133,7 @@ public class RuleEngineTest {
         Rule rule2 = Rule.builder()
                 .ruleNamespace(RuleNamespace.LOAN)
                 .ruleId("2")
-                .condition("(input.monthlySalary < 50000.0 && input.cibilScore <= 300 && input.requestedLoanAmount >= 1000000) || $(bank.target_done) == true")
+                .condition("(input.monthlySalary < 50000.0 && input.creditScore <= 300 && input.requestedLoanAmount >= 1000000) || $(bank.target_done) == true")
                 .action("output.setApprovalStatus(false); output.setInterestRate(0.0); output.setSanctionedPercentage(0.0);output.setProcessingFees(0);output.setAccountNumber(input.accountNumber);")
                 .priority(2)
                 .description("A person is eligible for car loan?")
@@ -143,13 +141,11 @@ public class RuleEngineTest {
         Rule rule3 = Rule.builder()
                 .ruleNamespace(RuleNamespace.LOAN)
                 .ruleId("3")
-                .condition("input.monthlySalary >= 20000.0 && input.cibilScore >= 300 && input.cibilScore < 500 && input.requestedLoanAmount <= 1000000 && $(bank.target_done) == false")
+                .condition("input.monthlySalary >= 20000.0 && input.creditScore >= 300 && input.creditScore < 500 && input.requestedLoanAmount <= 1000000 && $(bank.target_done) == false")
                 .action("output.setApprovalStatus(true); output.setInterestRate($(bank.interest)); output.setSanctionedPercentage(70);output.setProcessingFees(1000);output.setAccountNumber(input.accountNumber);")
                 .priority(2)
                 .description("A person is eligible for car loan?")
                 .build();
-
-        List<Rule> allRulesByNamespace = Lists.newArrayList(rule1, rule2, rule3);
-        return allRulesByNamespace;
+        return Lists.newArrayList(rule1, rule2, rule3);
     }
 }

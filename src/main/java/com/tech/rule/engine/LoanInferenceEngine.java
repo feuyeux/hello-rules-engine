@@ -1,7 +1,8 @@
-package com.tech.rulesImpl.loanRuleEngine;
+package com.tech.rule.engine;
 
-import com.tech.restAPI.RuleNamespace;
-import com.tech.ruleEngine.InferenceEngine;
+import com.tech.api.RuleNamespace;
+import com.tech.rule.pojo.LoanDetails;
+import com.tech.rule.pojo.UserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
