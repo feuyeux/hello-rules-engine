@@ -30,11 +30,11 @@ public class DSLPatternUtil {
         return keyword.substring(keyword.indexOf('(') + 1, keyword.indexOf(')'));
     }
 
-    public String getKeywordResolver(String dslKeyword){
+    public String getKeywordResolver(String dslKeyword) {
         return Splitter.on(DOT).omitEmptyStrings().splitToList(dslKeyword).get(0);
     }
 
-    public String getKeywordValue(String dslKeyword){
-    return Splitter.on(DOT).omitEmptyStrings().splitToList(dslKeyword).get(1);
+    public String getKeywordValue(String dslKeyword) {
+        return Splitter.on(DOT).omitEmptyStrings().splitToList(dslKeyword).get(1);
     }
 }

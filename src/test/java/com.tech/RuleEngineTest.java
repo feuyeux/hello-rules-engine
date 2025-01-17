@@ -68,15 +68,6 @@ public class RuleEngineTest {
                 .creditScore(600)
                 .age(25)
                 .build();
-
-        MvcResult mvcResult = mockMvc.perform(post("/loan")
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(userDetails)))
-                .andExpect(status().isOk()
-                ).andReturn();
-
-        String actualResponseBody = mvcResult.getResponse().getContentAsString();
-
         LoanDetails loanDetails = LoanDetails.builder()
                 .approvalStatus(true)
                 .interestRate(9.0f)
@@ -84,9 +75,7 @@ public class RuleEngineTest {
                 .accountNumber(1234567L)
                 .processingFees(2000.0)
                 .build();
-        String expectedResponseBody = objectMapper.writeValueAsString(loanDetails);
-
-        assertThat(expectedResponseBody).isEqualToIgnoringWhitespace(actualResponseBody);
+        verifyResult(userDetails, loanDetails);
     }
 
     @Test
@@ -100,15 +89,6 @@ public class RuleEngineTest {
                 .creditScore(400)
                 .age(25)
                 .build();
-
-        MvcResult mvcResult = mockMvc.perform(post("/loan")
-                        .contentType("application/json")
-                        .content(objectMapper.writeValueAsString(userDetails)))
-                .andExpect(status().isOk()
-                ).andReturn();
-
-        String actualResponseBody = mvcResult.getResponse().getContentAsString();
-
         LoanDetails loanDetails = LoanDetails.builder()
                 .approvalStatus(true)
                 .interestRate(9.0f)
@@ -116,8 +96,17 @@ public class RuleEngineTest {
                 .accountNumber(1234567L)
                 .processingFees(1000.0)
                 .build();
-        String expectedResponseBody = objectMapper.writeValueAsString(loanDetails);
+        verifyResult(userDetails, loanDetails);
+    }
 
+    private void verifyResult(UserDetails userDetails, LoanDetails loanDetails) throws Exception {
+        MvcResult mvcResult = mockMvc.perform(post("/loan")
+                        .contentType("application/json")
+                        .content(objectMapper.writeValueAsString(userDetails)))
+                .andExpect(status().isOk()
+                ).andReturn();
+        String actualResponseBody = mvcResult.getResponse().getContentAsString();
+        String expectedResponseBody = objectMapper.writeValueAsString(loanDetails);
         assertThat(expectedResponseBody).isEqualToIgnoringWhitespace(actualResponseBody);
     }
 

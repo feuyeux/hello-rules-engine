@@ -18,9 +18,13 @@ public class MVELParser {
             /*
              * git clone https://github.com/mvel/mvel.git -b mvel2-2.5.2.Final
              */
-            return MVEL.evalToBoolean(expression, inputObjects);
+            Boolean eval = MVEL.evalToBoolean(expression, inputObjects);
+            if (eval == null) {
+                return false;
+            }
+            return eval;
         } catch (NullPointerException e) {
-            log.error("Can not parse Mvel Expression : \nExpression:{}\nInput: {}\nOutput: {}",
+            log.error("Can not parse Mvel Expression : \nExpression: {}\nInput: {}\nOutput: {}",
                     expression,
                     inputObjects.get(INPUT_KEYWORD),
                     inputObjects.get(OUTPUT_KEYWORD)

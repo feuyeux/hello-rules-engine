@@ -1,8 +1,8 @@
 package com.tech.rule.engine;
 
+import com.tech.api.RuleNamespace;
 import com.tech.repository.models.Rule;
 import com.tech.rule.parser.RuleParser;
-import com.tech.api.RuleNamespace;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,21 +81,22 @@ public abstract class InferenceEngine<INPUT_DATA, OUTPUT_RESULT> {
      * @return : Selected rule
      */
     protected Rule resolve(List<Rule> conflictSet) {
-        Optional<Rule> rule = conflictSet.stream()
-                .findFirst();
+        Optional<Rule> rule = conflictSet.stream().findFirst();
         return rule.orElse(null);
     }
 
     /**
      * Execute selected rule on input data.
      *
-     * @param rule     : Selected rule
+     * @param rule      : Selected rule
      * @param inputData : Input data
      * @return : Output result
      */
     protected OUTPUT_RESULT executeRule(Rule rule, INPUT_DATA inputData) {
         OUTPUT_RESULT outputResult = initializeOutputResult();
-        return ruleParser.parseAction(rule.getAction(), inputData, outputResult);
+        String action = rule.getAction();
+        log.info("action: {}", action);
+        return ruleParser.parseAction(action, inputData, outputResult);
     }
 
     protected abstract OUTPUT_RESULT initializeOutputResult();

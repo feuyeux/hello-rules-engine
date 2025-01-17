@@ -1,10 +1,10 @@
 package com.tech.repository;
 
 import com.google.common.base.Enums;
+import com.tech.api.RuleNamespace;
 import com.tech.repository.db.RuleDbModel;
 import com.tech.repository.db.RulesRepository;
 import com.tech.repository.models.Rule;
-import com.tech.api.RuleNamespace;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

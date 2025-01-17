@@ -12,7 +12,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 @RunWith(SpringRunner.class)
-@SpringBootTest(classes = Application.class) //This annotation is used to specify the application configuration to load before running the tests.
+@SpringBootTest(classes = Application.class)
+//This annotation is used to specify the application configuration to load before running the tests.
 public class DSLPatternTest {
 
     @Autowired
@@ -22,31 +23,31 @@ public class DSLPatternTest {
     final String expression2 = "$(input.salary) >= 70000 && input.creditScore >= 900 && $(loan.interest) >= 8";
 
     @Test
-    public void verifyPatternInExpression(){
+    public void verifyPatternInExpression() {
         String keyword = dslPatternUtil.getListOfDslKeywords(expression1).get(0);
         assertThat(keyword).isEqualTo("$(loan.interest)");
     }
 
     @Test
-    public void verifyNumberOfPatternFoundInExpression(){
+    public void verifyNumberOfPatternFoundInExpression() {
         int numberOfPatters = dslPatternUtil.getListOfDslKeywords(expression2).size();
         assertThat(numberOfPatters).isEqualTo(2);
     }
 
     @Test
-    public void verifyExtractValue(){
+    public void verifyExtractValue() {
         String keyword = dslPatternUtil.getListOfDslKeywords(expression1).get(0);
         assertThat(dslPatternUtil.extractKeyword(keyword)).isEqualTo("loan.interest");
     }
 
     @Test
-    public void verifyKeywordResolverValue(){
+    public void verifyKeywordResolverValue() {
         String keyword = dslPatternUtil.getListOfDslKeywords(expression1).get(0);
         assertThat(dslPatternUtil.getKeywordResolver(dslPatternUtil.extractKeyword(keyword))).isEqualTo("loan");
     }
 
     @Test
-    public void verifyKeywordValue(){
+    public void verifyKeywordValue() {
         String keyword = dslPatternUtil.getListOfDslKeywords(expression1).get(0);
         assertThat(dslPatternUtil.getKeywordValue(dslPatternUtil.extractKeyword(keyword))).isEqualTo("interest");
     }

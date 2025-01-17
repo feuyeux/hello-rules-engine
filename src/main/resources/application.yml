@@ -15,10 +15,15 @@ spring:
     hibernate:
       ddl-auto: validate
     generate-ddl: true
-    
+
 # Add custom rule engine properties
 rule-engine:
   mvel:
     strict-mode: false
     cache-expressions: true
     max-cache-size: 1000
+logging:
+  level:
+    org.springframework: ERROR
+    com.zaxxer.hikari.pool.HikariPool: ERROR
+    org.hibernate: ERROR
