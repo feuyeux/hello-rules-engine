@@ -33,7 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Slf4j
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = Application.class)
-public class RuleEngineTest {
+public class RuleEngineSDKTest {
 
     private MockMvc mockMvc;
     @Autowired

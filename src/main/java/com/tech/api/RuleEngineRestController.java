@@ -5,7 +5,7 @@ import com.tech.repository.KnowledgeBaseService;
 import com.tech.repository.models.Rule;
 import com.tech.rule.engine.InsuranceInferenceEngine;
 import com.tech.rule.engine.LoanInferenceEngine;
-import com.tech.rule.engine.RuleEngine;
+import com.tech.rule.engine.RuleEngineSDK;
 import com.tech.rule.pojo.InsuranceDetails;
 import com.tech.rule.pojo.LoanDetails;
 import com.tech.rule.pojo.PolicyHolderDetails;
@@ -23,8 +23,8 @@ public class RuleEngineRestController {
     @Autowired
     private KnowledgeBaseService knowledgeBaseService;
     @Autowired
-    private RuleEngine<UserDetails, LoanDetails> ruleEngine;
-    private RuleEngine<PolicyHolderDetails, InsuranceDetails> ruleEngine2;
+    private RuleEngineSDK<UserDetails, LoanDetails> ruleEngineSDK;
+    private RuleEngineSDK<PolicyHolderDetails, InsuranceDetails> ruleEngineSDK2;
     @Autowired
     private LoanInferenceEngine loanInferenceEngine;
     @Autowired
@@ -45,13 +45,13 @@ public class RuleEngineRestController {
 
     @PostMapping(value = "/loan")
     public ResponseEntity<?> postUserLoanDetails(@RequestBody UserDetails userDetails) {
-        LoanDetails result = ruleEngine.run(loanInferenceEngine, userDetails);
+        LoanDetails result = ruleEngineSDK.run(loanInferenceEngine, userDetails);
         return ResponseEntity.ok(result);
     }
 
     @PostMapping(value = "/insurance")
     public ResponseEntity<?> postCarLoanDetails(@RequestBody PolicyHolderDetails policyHolderDetails) {
-        InsuranceDetails result = ruleEngine2.run(insuranceInferenceEngine, policyHolderDetails);
+        InsuranceDetails result = ruleEngineSDK2.run(insuranceInferenceEngine, policyHolderDetails);
         return ResponseEntity.ok(result);
     }
 }

@@ -10,7 +10,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class RuleEngine<INPUT_DATA, OUTPUT_RESULT> {
+public class RuleEngineSDK<INPUT_DATA, OUTPUT_RESULT> {
 
     @Autowired
     private KnowledgeBaseService knowledgeBaseService;
